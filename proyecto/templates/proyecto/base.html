@@ -87,11 +87,10 @@
 						<p class="title-footer">Información de Contacto</p>
 						<ul>
 							<li>
-								Dirección: 71 Pennington Lane Vernon Rockville, CT
-								06066
+								Dirección: Santiago Centro # 894, Santaigo, Chile. 
 							</li>
-							<li>Teléfono: 123-456-7890</li>
-							<li>Fax: 55555300</li>
+							<li>Teléfono: +56 9 53353867</li>
+							
 							<li>EmaiL: baristas@support.com</li>
 						</ul>
 						<div class="social-icons">
@@ -119,7 +118,7 @@
 							<li><a href="{% url 'nosotros' %}">Acerca de Nosotros</a></li>
 							
 							<li><a href="#">Politicas de Privacidad</a></li>
-							<li><a href="#">Términos y condiciones</a></li>
+							<li><a href="{% url 'terminos' %}">Términos y condiciones</a></li>
 							<li><a href="#">Contactános</a></li>
 						</ul>
 					</div>
@@ -163,7 +162,7 @@
 		</footer>
 
 		<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
-		<script src="{% static 'js/styles.js' %}"></script>
+		
 		<script>
 			function toggleDropdown() {
 				document.getElementById("dropdownContent").classList.toggle("show");
