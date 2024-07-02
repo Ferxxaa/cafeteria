@@ -1,0 +1,31 @@
+
+{% extends 'proyecto/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="login-container">
+    <form method="POST" class="form-login">
+        {% csrf_token %}
+        <div class="login-header">
+            <h2>Iniciar sesión</h2>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Usuario:</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Iniciar sesión">
+        
+    </form>
+</div>
+
+<div class="image-container">
+    <img src="{% static 'img/moca-category.jpg' %}" alt="Imagen">
+</div>
+{% endblock %}
