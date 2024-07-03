@@ -10,18 +10,19 @@ class Carrito:
             self.carrito = carrito
 
     def agregar(self, producto):
-        id = str(producto.id)
-        if id not in self.carrito.keys():
-            self.carrito[id]={
+        producto_id = str(producto.id)
+        if producto_id not in self.carrito:
+            self.carrito[producto_id] = {
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
-                "precio": producto.precio,
-                "acumulado": producto.precio,
+                "precio": float(producto.precio),  # Convertir Decimal a float
+                "acumulado": float(producto.precio),  # Convertir Decimal a float
                 "cantidad": 1,
             }
         else:
-            self.carrito[id]["cantidad"] += 1
-            self.carrito[id]["acumulado"] += producto.precio
+            self.carrito[producto_id]["cantidad"] += 1
+            self.carrito[producto_id]["acumulado"] += float(producto.precio)  # Convertir Decimal a float
+
         self.guardar_carrito()
 
     def guardar_carrito(self):
@@ -35,12 +36,14 @@ class Carrito:
             self.guardar_carrito()
 
     def restar(self, producto):
-        id = str(producto.id)
-        if id in self.carrito.keys():
-            self.carrito[id]["cantidad"] -= 1
-            self.carrito[id]["acumulado"] -= producto.precio
-            if self.carrito[id]["cantidad"] <= 0: self.eliminar(producto)
-            self.guardar_carrito()
+        producto_id = str(producto.id)
+        if producto_id in self.carrito:
+            self.carrito[producto_id]["cantidad"] -= 1
+            self.carrito[producto_id]["acumulado"] -= float(producto.precio)
+            if self.carrito[producto_id]["cantidad"] <= 0:
+                del self.carrito[producto_id]
+
+        self.guardar_carrito()
 
     def limpiar(self):
         self.session["carrito"] = {}
