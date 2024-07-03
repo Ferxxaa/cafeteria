@@ -22,7 +22,7 @@ urlpatterns = [
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
     path('nosotros/', views.nosotros, name='nosotros'),
-    
+    path('factura/', views.generar_factura, name='factura'),
     
 ]
     

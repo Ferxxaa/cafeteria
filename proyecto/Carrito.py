@@ -15,6 +15,7 @@ class Carrito:
             self.carrito[id]={
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
+                "precio": producto.precio,
                 "acumulado": producto.precio,
                 "cantidad": 1,
             }
