@@ -67,24 +67,44 @@ def carrito(request):
 
 
 def agregar_producto(request, producto_id):
+    carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
-    carrito = request.session.get('carrito', {})
-    
-    # Convertir el precio (Decimal) a float antes de almacenarlo
-    precio_float = float(producto.precio)
-    
-    # Guardar en la sesión
-    carrito[producto_id] = {
-        'producto_id': producto_id,
-        'nombre': producto.nombre,
-        'precio': precio_float,  # Convertir a float antes de almacenarlo
-        'cantidad': 1,
-        'acumulado': precio_float,  # Convertir a float si es necesario
-    }
-    request.session['carrito'] = carrito
-    request.session.modified = True
-    
-    return redirect('tienda') # Asegúrate de que "tienda" sea el nombre correcto de la vista de la tienda
+    carrito.agregar(producto)
+
+    # Si el usuario decide realizar la compra desde el carrito
+    if request.method == 'POST':
+        try:
+            with transaction.atomic():
+                total_compra = Decimal('0.0')  # Inicializar el total de la compra como Decimal
+
+                # Guardar cada producto del carrito como una compra asociada al usuario
+                for item in carrito:
+                    precio_unitario = Decimal(item['producto'].precio)
+                    cantidad = item['cantidad']
+                    total_item = precio_unitario * cantidad
+                    total_compra += total_item
+
+                    compra = Compra(
+                        usuario=request.user,
+                        producto=item['producto'],
+                        cantidad=cantidad,
+                        precio_unitario=precio_unitario,
+                        total=total_item
+                    )
+                    compra.save()
+
+                # Limpiar el carrito después de completar la compra
+                carrito.limpiar()
+
+        except Exception as e:
+            # Manejar cualquier error que pueda ocurrir durante la transacción
+            print(f"Error al realizar la compra: {e}")
+            return redirect('tienda')  # Redirigir a la tienda o manejar el error según tu aplicación
+
+        # Redirigir a la generación de factura después de completar la compra
+        return redirect('generar_factura')
+
+    return redirect('tienda')
 
 def eliminar_producto(request, producto_id):
     carrito = Carrito(request)
