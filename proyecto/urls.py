@@ -5,6 +5,7 @@ from proyecto.views import tienda, agregar_producto, eliminar_producto, restar_p
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     
     path("home/",views.home, name="home" ),
@@ -21,7 +22,6 @@ urlpatterns = [
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
     path('nosotros/', views.nosotros, name='nosotros'),
-   
     
     
 ]
